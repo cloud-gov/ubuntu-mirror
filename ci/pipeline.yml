@@ -11,6 +11,9 @@ jobs:
     - get: docker-hub-image
       trigger: true
     - put: ecr-image
+      params:
+        image: docker-hub-image/image.tar
+
 
 resources:
 
