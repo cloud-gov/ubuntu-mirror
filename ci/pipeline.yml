@@ -9,6 +9,7 @@ jobs:
 - name: mirror-dockerhub-image
   plan:
     - get: docker-hub-image
+      trigger: true
     - put: ecr-image
 
 resources:
