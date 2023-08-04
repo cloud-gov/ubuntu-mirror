@@ -1,0 +1,36 @@
+jobs:
+- name: set-self
+  plan:
+    - get: src
+      trigger: true
+    - set_pipeline: self
+      file: src/ci/pipeline.yml
+
+- name: mirror-dockerhub-image
+  plan:
+    get: docker-hub-image
+    put: ecr-image
+
+resources:
+
+- name: docker-hub-image
+  type: registry-image
+  source:
+    repository: ubuntu
+    tag: "22.04"
+
+- name: ecr-image
+  type: registry-image
+  source:
+    aws_access_key_id: ((ecr_aws_key))
+    aws_secret_access_key: ((ecr_aws_secret))
+    repository: ubuntu
+    tag: "22.04"
+    aws_region: us-gov-west-1
+
+- name: src
+  type: git
+  source:
+    uri: https://github.com/cloud-gov/ubuntu-mirror
+    branch: main
+    commit_verification_keys: ((cloud-gov-pgp-keys))
