@@ -10,6 +10,9 @@ jobs:
   plan:
     - get: docker-hub-image
       trigger: true
+      params:
+        format: oci
+
     - put: ecr-image
       params:
         image: docker-hub-image/image.tar
