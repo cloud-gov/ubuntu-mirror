@@ -8,8 +8,8 @@ jobs:
 
 - name: mirror-dockerhub-image
   plan:
-    get: docker-hub-image
-    put: ecr-image
+    - get: docker-hub-image
+    - put: ecr-image
 
 resources:
 
