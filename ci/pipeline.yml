@@ -21,7 +21,7 @@ resources:
   - name: docker-hub-image
     type: registry-image
     source:
-      repository: ubuntu
+      repository: public.ecr.aws/lts/ubuntu
       tag: "22.04"
 
   - name: ecr-image
