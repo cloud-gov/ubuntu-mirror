@@ -6,22 +6,22 @@ jobs:
       - set_pipeline: self
         file: src/ci/pipeline.yml
 
-  - name: mirror-dockerhub-image
+  - name: mirror-public-ecr-image
     plan:
-      - get: docker-hub-image
+      - get: public-ecr-image
         trigger: true
         params:
           format: oci
 
       - put: ecr-image
         params:
-          image: docker-hub-image/image.tar
+          image: public-ecr-image/image.tar
 
 resources:
-  - name: docker-hub-image
+  - name: public-ecr-image
     type: registry-image
     source:
-      repository: ubuntu
+      repository: public.ecr.aws/lts/ubuntu
       tag: "22.04"
 
   - name: ecr-image
