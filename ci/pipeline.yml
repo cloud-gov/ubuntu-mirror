@@ -17,6 +17,17 @@ jobs:
         params:
           image: public-ecr-image/image.tar
 
+  - name: mirror-noble-public-ecr-image
+    plan:
+      - get: noble-public-ecr-image
+        trigger: true
+        params:
+          format: oci
+
+      - put: noble-ecr-image
+        params:
+          image: noble-public-ecr-image/image.tar
+
 resources:
   - name: public-ecr-image
     type: registry-image
@@ -31,6 +42,21 @@ resources:
       aws_secret_access_key: ((ecr_aws_secret))
       repository: ubuntu
       tag: "22.04"
+      aws_region: us-gov-west-1
+
+  - name: noble-public-ecr-image
+    type: registry-image
+    source:
+      repository: public.ecr.aws/lts/ubuntu
+      tag: "24.04"
+
+  - name: noble-ecr-image
+    type: registry-image
+    source:
+      aws_access_key_id: ((ecr_aws_key))
+      aws_secret_access_key: ((ecr_aws_secret))
+      repository: ubuntu-noble
+      tag: "24.04"
       aws_region: us-gov-west-1
 
   - name: src
